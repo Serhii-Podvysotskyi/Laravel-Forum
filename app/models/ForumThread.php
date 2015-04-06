@@ -11,9 +11,7 @@ class ForumThread extends Eloquent {
     	return $this->hasMany('ForumComment', 'thread_id');
     }
     public function isFavourite() {
-        if(Auth::check()) {
-            return ($this->favourites()->where('user_id', Auth::user()->id)->count() == 0)? false : true;
-        }
+        return ($this->favourites()->where('user_id', Auth::user()->id)->count() == 0)? false : true;
     }
     public function favourites() {
         return $this->hasMany('UserFavourite', 'thread_id');

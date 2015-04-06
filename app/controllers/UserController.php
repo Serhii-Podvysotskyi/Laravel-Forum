@@ -63,6 +63,8 @@ class UserController extends BaseController {
                 'user_id' => Auth::user()->id,
                 'thread_id' => $id));
         }
-        return "done";
+    }
+    public function getAccount($id) {
+        return View::make('user.account');
     }
 }

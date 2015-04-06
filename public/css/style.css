@@ -38,6 +38,3 @@ div.like span:hover {
 div.like.active span {
     background-color: #337ab7;
 }
-div.like.active span:hover {
-    background-color: #777;
-}

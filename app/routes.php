@@ -31,9 +31,15 @@ Route::group(array('before' => 'admin'), function() {
     });
 });
 Route::group(array('before' => 'auth'), function() {
+    Route::get('/user/{id}', array(
+        'uses'  =>  'UserController@getAccount',
+        'as'    =>  'forum-user'));
     Route::post('/thread/{id}/favourite', array(
         'uses'  =>  'UserController@postFavourite',
         'as'    =>  'forum-thread-favourite'));
+    Route::post('/comment/{id}/like', array(
+        'uses'  =>  'ForumController@postLike',
+        'as'    =>  'forum-comment-like'));
     Route::group(array('before' => 'csrf'), function() {
 	Route::post('/thread/{id}/new', array(
             'uses'  =>	'ForumController@storeThread',

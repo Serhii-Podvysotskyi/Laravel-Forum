@@ -29,4 +29,18 @@ $(document).ready(function () {
             $(this).removeClass("btn-warning");
         }
     });
+    $("div#like.like").click(function() {
+        var id = $(this).parents("div.row").first().attr('id');
+        $.ajax({
+            method: "POST",
+            url: URL + "/comment/" + id + "/like"})
+            .done(function(data) {
+                $("div#" + id + ".row div#like.like span").text(data);
+            });
+        if($(this).hasClass("active")) {
+            $(this).removeClass("active");
+        } else {
+            $(this).addClass("active");
+        }
+    });
 });
