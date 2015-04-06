@@ -5,6 +5,6 @@ class UserFavourite extends Eloquent {
         return $this->belongsTo('ForumThread', 'thread_id');
     }
     public function user() {
-            return $this->belongsTo('User', 'user_id');
-        }
+        return $this->belongsTo('User', 'user_id');
+    }
 }

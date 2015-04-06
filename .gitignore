@@ -5,3 +5,4 @@ app/config/local/
 app/config/packages/
 app/config/testing/
 app/config/database.php
+/nbproject/private/

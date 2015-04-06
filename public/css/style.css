@@ -16,3 +16,28 @@
     left: 20px;
     right: 20px;
 }
+.glyphicon.glyphicon-star.favourite {
+    color: #f0ad4e;
+}
+img#avatar {
+    width: 100%;
+}
+div#like {
+    cursor: pointer;
+}
+div#like span {
+    font-size: 16px;
+    border-radius: 1em;
+}
+div.like span {
+    background-color: #777;
+}
+div.like span:hover {
+    background-color: #337ab7;
+}
+div.like.active span {
+    background-color: #337ab7;
+}
+div.like.active span:hover {
+    background-color: #777;
+}
