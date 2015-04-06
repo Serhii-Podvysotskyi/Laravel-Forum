@@ -8,6 +8,9 @@ Route::get('/category/{id}', array(
 Route::get('/thread/{id}', array(
     'uses'	=>	'ForumController@thread',
     'as'	=>	'forum-thread'));
+Route::get('/user/{id}/profile', array(
+    'uses'  =>  'UserController@getAccount',
+    'as'    =>  'forum-user'));
 Route::group(array('before' => 'admin'), function() {
     Route::get('/group/{id}/delete', array(
 	'uses'	=>	'ForumController@deleteGroup',
@@ -31,9 +34,9 @@ Route::group(array('before' => 'admin'), function() {
     });
 });
 Route::group(array('before' => 'auth'), function() {
-    Route::get('/user/{id}', array(
-        'uses'  =>  'UserController@getAccount',
-        'as'    =>  'forum-user'));
+    Route::get('/user/logout', array(
+	'uses'	=>  'UserController@getLogout',
+	'as'	=>  'getLogout'));
     Route::post('/thread/{id}/favourite', array(
         'uses'  =>  'UserController@postFavourite',
         'as'    =>  'forum-thread-favourite'));
@@ -47,26 +50,24 @@ Route::group(array('before' => 'auth'), function() {
 	Route::post('/comment/{id}/new', array(
             'uses'  =>	'ForumController@storeComment',
             'as'    =>  'forum-store-comment'));
+        Route::post('/user/setname/{id}', array(
+            'uses'  =>  'UserController@setName',
+            'as'    =>  'user-set-name'));
     });
 });
 Route::group(array('before' => 'guest'), function() {
     Route::get('/user/create', array(
-	'uses'	=>	'UserController@getCreate',
-	'as'	=>	'getCreate'));
+	'uses'	=>  'UserController@getCreate',
+	'as'	=>  'getCreate'));
     Route::get('/user/login', array(
-	'uses'	=>	'UserController@getLogin',
-	'as'	=>	'getLogin'));
+	'uses'	=>  'UserController@getLogin',
+	'as'	=>  'getLogin'));
     Route::group(array('before' => 'csrf'), function() {
         Route::post('/user/create', array(
-            'uses'	=>	'UserController@postCreate',
-            'as'	=>	'postCreate'));
+            'uses'  =>	'UserController@postCreate',
+            'as'    =>	'postCreate'));
 	Route::post('/user/login', array(
-            'uses'	=>	'UserController@postLogin',
-            'as'	=>	'postLogin'));
+            'uses'  =>	'UserController@postLogin',
+            'as'    =>	'postLogin'));
     });
-});
-Route::group(array('before' => 'auth'), function() {
-    Route::get('/user/logout', array(
-	'uses'	=>	'UserController@getLogout',
-	'as'	=>	'getLogout'));
 });

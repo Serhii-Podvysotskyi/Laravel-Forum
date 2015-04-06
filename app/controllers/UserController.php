@@ -22,12 +22,14 @@ class UserController extends BaseController {
                 $info = new UserInfo();
                 $info->user_id = $user->id;
                 if ($info->save()) {
-                    return Redirect::route('forum-home')->with('success', 'You registed successfully. You can now login.');
+                    return Redirect::route('forum-home')
+                        ->with('success', 'You registed successfully. You can now login.');
                 } else {
                     $user->delete();
                 }
             }
-            return Redirect::route('forum-home')->with('fail', 'An error occured while creating the user. Please try again.');
+            return Redirect::route('forum-home')
+                ->with('fail', 'An error occured while creating the user. Please try again.');
 	}
     }
     public function postLogin() {
@@ -36,7 +38,9 @@ class UserController extends BaseController {
             'pass1' => 'required'
 	));
 	if($validator->fails()) {
-            return Redirect::route('getLogin')->withErrors($validator)->withInput();
+            return Redirect::route('getLogin')
+                ->withErrors($validator)
+                ->withInput();
 	} else {
             $remember = (Input::has('remember')) ? true : false;
             $auth = Auth::attempt(array(
@@ -46,7 +50,8 @@ class UserController extends BaseController {
             if($auth) {
 		return Redirect::intended('/');
             } else {
-		return Redirect::route('getLogin')->with('fail', 'You entered the wrong login credentials, please try again!');
+		return Redirect::route('getLogin')
+                    ->with('fail', 'You entered the wrong login credentials, please try again!');
             }
 	}
     }	
@@ -65,6 +70,51 @@ class UserController extends BaseController {
         }
     }
     public function getAccount($id) {
-        return View::make('user.account');
+        $user = User::find($id);
+        return View::make('user.account')
+            ->with('user', $user);
+    }
+    public function setName($id) {
+        $validator = Validator::make(Input::all(), array(
+            'Name' => 'required'
+	));
+        if($validator->fails()) {
+            return Redirect::route('forum-user', Auth::user()->id)
+                ->with('fail', 'Name wasn\'t required!');
+	} else {
+            $info = Auth::user()->info()->first();
+            switch ($id) {
+                case 1:
+                    if ($info->name1 == Input::get('Name')) {
+                        return Redirect::route('forum-user', Auth::user()->id);
+                    }
+                    $info->name1 = Input::get('Name');
+                    break;
+                case 2:
+                    if ($info->name2 == Input::get('Name')) {
+                        return Redirect::route('forum-user', Auth::user()->id);
+                    }
+                    $info->name2 = Input::get('Name');
+                    break;
+                default :
+                    break;
+            }
+            $info->save();
+            return Redirect::route('forum-user', Auth::user()->id)
+                ->with('success', 'Name was changed!');
+        }
+    }
+    public function setEmail() {
+        $validator = Validator::make(Input::all(), array(
+            'Email' => 'required|E-mail'
+	));
+        if($validator->fails()) {
+            return Redirect::route('forum-user', Auth::user()->id)
+                ->withErrors($validator)
+                ->withInput();
+	} else {
+            return Redirect::route('forum-user', Auth::user()->id)
+                ->with('success', 'You have specified an email!');
+	}
     }
 }

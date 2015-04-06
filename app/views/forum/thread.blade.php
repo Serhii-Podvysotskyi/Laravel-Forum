@@ -41,14 +41,17 @@
     @foreach ($thread->comments()->get() as $comment)
         <div class="row" id="{{ $comment->id }}">
             <div class="col-md-2 col-sm-2 col-lg-1 col-xs-4">
-                <a href="{{ URL::route('forum-user', $thread->author->id) }}" class="thumbnail">
+                <a href="{{ URL::route('forum-user', $comment->author->id) }}" class="thumbnail">
                     <img src="{{ asset('img/'.$comment->author->info->avatar) }}" class="img-thumbnail" id="avatar">
                 </a>
             </div>
             <div class="col-md-10 col-sm-10 col-lg-11 col-xs-8">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <p class="pull-left">By: <strong>{{ $comment->author->username }}</strong> on {{ $comment->created_at }}</p>
+                        <p class="pull-left">By:
+                            <strong>
+                                <a href="{{ URL::route('forum-user', $comment->author->id) }}">{{ $comment->author->username }}</a>
+                            </strong> on {{ $comment->created_at }}</p>
                         @if (Auth::check() && Auth::user()->isAdmin())
                             <a href="{{ URL::route('forum-delete-comment', $comment->id) }}" class="btn btn-danger pull-right btn-sm">Delete</a>
                         @endif
