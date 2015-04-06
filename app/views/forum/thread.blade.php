@@ -12,8 +12,13 @@
 			<li><a href="{{ URL::route('forum-category', $thread->category_id) }}">{{ $thread->category->title }}</a></li>
 			<li class="active">{{ $thread->title }}</li>
 		</ol>
-		@if(Auth::check() && Auth::user()->isAdmin())
-			<a href="{{ URL::route('forum-delete-thread', $thread->id) }}" class="btn btn-danger pull-right">Delete</a>
+		@if(Auth::check())
+            <a href="" class="btn btn-default pull-right" id="favourite">
+                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+            </a>
+            @if(Auth::user()->isAdmin())
+			    <a href="{{ URL::route('forum-delete-thread', $thread->id) }}" class="btn btn-danger pull-right">Delete</a>
+            @endif
 		@endif
 	</div>
 
@@ -54,4 +59,12 @@
 			</div>
 		</form>
 	@endif
+@stop
+
+@section('javascript')
+    @parent
+    <script type="text/javascript" src="{{ URL::to('/') }}/js/app.js"></script>
+    <script type="text/javascript">
+        URL = "{{ URL::to('/') }}";
+    </script>
 @stop

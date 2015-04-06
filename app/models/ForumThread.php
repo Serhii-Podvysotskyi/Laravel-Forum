@@ -13,4 +13,7 @@ class ForumThread extends Eloquent {
 	public function author() {
 		return $this->belongsTo('User', 'author_id');
 	}
+    public  function size() {
+        return $this->comments()->count();
+    }
 }

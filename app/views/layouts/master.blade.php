@@ -34,8 +34,23 @@
 			</div>
 		</div>
 	</nav>
+	<div class="container">
+        @yield('content')
 
-	<div class="container">@yield('content')</div>
+        <div class="alert-container">
+            @if(Session::has('success'))
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Well done! </strong>{{ Session::get('success') }}
+                </div>
+            @elseif (Session::has('fail'))
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Oh snap! </strong>{{ Session::get('fail') }}
+                </div>
+            @endif
+        </div>
+    </div>
 
 	@section('javascript')
 		<script src=<?php echo '"http://'.Request::server("HTTP_HOST").'/jQuery/jquery-2.1.3.min.js"';?>></script>

@@ -5,7 +5,8 @@
 	"license": "MIT",
 	"require": {
 		"laravel/framework": "4.2.*",
-		"golonka/bbcodeparser": "1.1.*"
+		"golonka/bbcodeparser": "1.1.*",
+		"barryvdh/laravel-ide-helper": "1.11.*@dev"
 	},
 	"autoload": {
 		"classmap": [
@@ -24,6 +25,7 @@
 		],
 		"post-update-cmd": [
 			"php artisan clear-compiled",
+			"php artisan ide-helper:generate",
 			"php artisan optimize"
 		],
 		"post-create-project-cmd": [

@@ -121,7 +121,8 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
-		'Golonka\BBCode\BBCodeParserServiceProvider'
+		'Golonka\BBCode\BBCodeParserServiceProvider',
+		'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
 	),
 
 	/*

@@ -10,4 +10,7 @@ class ForumCategory extends Eloquent {
 	public function comments() {
 		return $this->hasMany('ForumComment', 'category_id');
 	}
+    public  function size() {
+        return $this->threads()->count();
+    }
 }

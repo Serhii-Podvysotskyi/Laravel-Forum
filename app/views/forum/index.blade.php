@@ -33,7 +33,9 @@
 			<div class="list-group">
 				@foreach($categories as  $category)
 					@if($category->group_id == $group->id)
-					<a href="{{ URL::route('forum-category', $category->id) }}" class="list-group-item">{{ $category->title }}</a>
+					    <a href="{{ URL::route('forum-category', $category->id) }}" class="list-group-item">
+                            {{ $category->title }}<span class="badge">{{ $category->size() }}</span>
+                        </a>
 					@endif
 				@endforeach
 			</div>
@@ -96,7 +98,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary" data-dismiss-"modal" id="category_submit">Save</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" id="category_submit">Save</button>
 			</div>
 		</div>
 	</div>
@@ -141,7 +143,7 @@
 
 	@if(Session::has('category-modal') && Session::has('group-id'))
 		<script type="text/javascript">
-			$("#category_form").prop('action', "{{ URL::to('/') }}/forum/category/{{ Session::get('group-id') }}/new");
+			$("#category_form").prop('action', "{{ URL::to('/') }}/category/{{ Session::get('group-id') }}/new");
 			$("{{ Session::get('category-modal') }}").modal('show');
 		</script>
 	@endif

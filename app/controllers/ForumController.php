@@ -93,14 +93,19 @@ class ForumController extends BaseController {
 
 	public function storeCategory($id) {
 		$validator = Validator::make(Input::all(), array(
-			'category_name' => 'required|unique:forum_categories,title'
+			'category_name' => 'required'
 		));
 		if ($validator->fails()) {
-			return Redirect::route('forum-home')->withInput()->withErrors($validator)->with('category-modal', '#category_modal')->with('group-id', $id);
+			return Redirect::route('forum-home')
+                ->withInput()
+                ->withErrors($validator)
+                ->with('category-modal', '#category_modal')
+                ->with('group-id', $id);
 		} else {
 			$group = ForumGroup::find($id);
 			if ($group == null) {
-				return Redirect::route('forum-home')->with('fail', "That group doesn't exist.");
+				return Redirect::route('forum-home')
+                    ->with('fail', "That group doesn't exist.");
 			}
 			$category = new ForumCategory;
 			$category->title = Input::get('category_name');
@@ -114,32 +119,32 @@ class ForumController extends BaseController {
 		}
 	}
 
-	public function newThread($id) {
-		return View::make('forum.newthread')->with('id', $id);
-	}
-
 	public function storeThread($id) {
 		$category = ForumCategory::find($id);
-		if ($category == null) {
-			Redirect::route('forum-get-new-thread')->with('fail', "You posted to an invalid category.");
+        if ($category == null) {
+			return Redirect::route('forum-home')
+                ->with('fail', "You posted to an invalid category.");
 		}
 		$validator = Validator::make(Input::all(), array(
-			'title'	=>	'required|min:3|max:255',
-			'body'	=>	'required|min:10|max:65000'
+			'thread_title'	=>	'required|min:2|max:255',
+			'thread_body'	=>	'required|min:2|max:65000'
 		));
 		if ($validator->fails()) {
-			return Redirect::route('forum-get-new-thread', $id)->withInput()->withErrors($validator)->with('fail', "Your input doesn't match the requirements");
+			return Redirect::route('forum-category', $id)
+                ->withInput()
+                ->withErrors($validator)
+                ->with('modal', '#thread_form');
 		} else {
 			$thread = new ForumThread;
-			$thread->title = Input::get('title');
-			$thread->body = Input::get('body');
+			$thread->title = Input::get('thread_title');
+			$thread->body = Input::get('thread_body');
 			$thread->category_id = $id;
 			$thread->group_id = $category->group_id;
 			$thread->author_id = Auth::user()->id;
 			if ($thread->save()) {
 				return Redirect::route('forum-thread', $thread->id)->with('success', "Your thread has been saved.");
 			} else {
-				return Redirect::route('forum-get-new-thread', $id)->with('fail', "An error occured while saving your thread.")->withInput();
+				return Redirect::route('forum-category', $id)->with('fail', "An error occured while saving your thread.");
 			}
 		}
 	}
