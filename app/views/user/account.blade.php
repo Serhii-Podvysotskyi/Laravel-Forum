@@ -12,10 +12,10 @@
                         <div class="panel-body" style="padding: 10px;">
                             <img src="{{ asset('img/'.$user->info->avatar) }}" class="img-rounded" id="avatar"/>
                             @if(Auth::check() && Auth::user()->id == $user->id)
-                                <form class="form-inline" style="margin-top: 10px;" method="post" enctype="multipart/form-data" action="{{ URL::route('user-avatar-upload') }}">
-                                    <input type="file" id="image" name="image" data-filename-placement="inside" class="pull-left">
+                            <form style="margin-top: 10px;" method="post" enctype="multipart/form-data" action="{{ URL::route('user-avatar-upload') }}" style="z-index: 2;">
+                                    <input type="file" id="image" name="image" data-filename-placement="inside">
+                                    <button type="submit" class="btn btn-success" style="margin-top: 10px; width: 100%; z-index: 3;">Change</button>
                                     {{ Form::token() }}
-                                    <button type="submit" class="btn btn-success pull-right">Change</button>
                                 </form>
                             @endif
                             @if(Auth::check() && (Auth::user()->isAdmin() || Auth::user()->id == $user->id))
@@ -104,7 +104,7 @@
                             @if($user->threads()->get()->count() != 0)
                                 @foreach($user->threads as $thread)
                                     <a href="{{ URL::route('forum-thread', $thread->id) }}" class="list-group-item">
-                                        @if($thread->isFavourite())
+                                        @if(Auth::check() && (Auth::user()->id == $user->id) && $thread->isFavourite())
                                             <span class="glyphicon glyphicon-star favourite" aria-hidden="true"></span>
                                         @endif
                                         {{ $thread->title }}
@@ -120,7 +120,7 @@
                                 @if($user->comments()->get()->count() != 0)
                                     @foreach($user->getThreads() as $thread)
                                         <a href="{{ URL::route('forum-thread', $thread->id) }}" class="list-group-item">
-                                            @if($thread->isFavourite())
+                                            @if(Auth::check() && (Auth::user()->id == $user->id) && $thread->isFavourite())
                                                 <span class="glyphicon glyphicon-star favourite" aria-hidden="true"></span>
                                             @endif
                                             {{ $thread->title }}
@@ -140,7 +140,7 @@
                                 @if($user->favourites()->get()->count() != 0)
                                     @foreach($user->getFavoriteThreads() as $thread)
                                         <a href="{{ URL::route('forum-thread', $thread->id) }}" class="list-group-item">
-                                            @if($thread->isFavourite())
+                                            @if(Auth::check() && (Auth::user()->id == $user->id) && $thread->isFavourite())
                                                 <span class="glyphicon glyphicon-star favourite" aria-hidden="true"></span>
                                             @endif
                                             {{ $thread->title }}

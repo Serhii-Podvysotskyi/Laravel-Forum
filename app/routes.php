@@ -52,6 +52,9 @@ Route::group(array('before' => 'auth'), function() {
     Route::post('/comment/{id}/like', array(
         'uses'  =>  'ForumController@postLike',
         'as'    =>  'forum-comment-like'));
+    Route::post('/user/avatar/upload', array(
+            'uses'  =>  'UserController@avatarUpload',
+            'as'    =>  'user-avatar-upload'));
     Route::group(array('before' => 'csrf'), function() {
 	Route::post('/thread/{id}/new', array(
             'uses'  =>	'ForumController@storeThread',
@@ -65,9 +68,6 @@ Route::group(array('before' => 'auth'), function() {
         Route::post('/user/setemail', array(
             'uses'  =>  'UserController@setEmail',
             'as'    =>  'user-set-email'));
-        Route::post('/user/avatar/upload', array(
-            'uses'  =>  'UserController@avatarUpload',
-            'as'    =>  'user-avatar-upload'));
     });
 });
 Route::group(array('before' => 'guest'), function() {

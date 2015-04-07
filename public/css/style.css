@@ -19,6 +19,9 @@
 img#avatar {
     width: 100%;
 }
+a#avatar {
+    margin-bottom: 0px;
+}
 div#like {
     cursor: pointer;
 }
@@ -38,15 +41,10 @@ div.like.active span {
 input.btn {
     display: inline-block;
 }
-a.file-input-wrapper {
-    position: absolute;
-    max-width: 145px;
-}
 a.email {
     color: white;
 }
-body,
-html {
+body, html {
     height: 100%;
 }
 .tab-content {
@@ -64,4 +62,42 @@ ul#myTab li.active a {
 }
 div.tab-content, div.tab-content div.active {
     background-color: #337ab7;
+}
+div.panel.thread-body {
+    color: black;
+    padding: 15px;
+    margin-bottom: 0px;
+    background-color: white;
+}
+div.row.thread-body {
+    display: table;
+}
+div.row.thread-body [class*="col-"] {
+    position: relative;
+    height: 100%;
+    float: none;
+    display: table-cell;
+    vertical-align: top;
+}
+a.comment_dalete {
+    margin-top: 1px;
+    margin-left: 5px;
+}
+a.delete_group {
+    margin-right: 10px;
+}
+a.add_favourite {
+    width: 40px;
+    height: 40px;
+    padding-top: 6px;
+    padding-left: 10px;
+    font-size: 150%;
+    border-radius: 20px;
+    position: absolute;
+    right: 15px;
+}
+a.file-input-wrapper {
+    z-index: 1;
+    white-space: initial;
+    width: 100%;
 }
