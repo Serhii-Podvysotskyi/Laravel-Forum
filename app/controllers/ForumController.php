@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../vendor/autoload.php';
 class ForumController extends BaseController {
     public function index() {
 	$groups = ForumGroup::all();
@@ -191,11 +192,20 @@ class ForumController extends BaseController {
 	}
     }
     public function storeComment($id) {
+        $siteKey = '6Lfn7gQTAAAAAH1nPaiMYmFE44X5Gz9Fs-2JT6bw';
+        $secret = '6Lfn7gQTAAAAAITLFRSUD2iF1kAgkAHQ6QJ0NRa5';
 	$thread = ForumThread::find($id);
 	if ($thread == null) {
-            Redirect::route('forum')
+            return Redirect::route('forum-home')
                 ->with('fail', "That thread does not exist.");
 	}
+        $recaptcha = new \ReCaptcha\ReCaptcha($secret);
+        $resp = $recaptcha->verify(Input::get('g-recaptcha-response'), $_SERVER['REMOTE_ADDR']);
+        if (!$resp->isSuccess()) {
+            return Redirect::route('forum-thread', $id)
+                ->withInput()
+                ->with('fail', "Are you robot?");
+        }
 	$validator = Validator::make(Input::all(), array(
             'body' => 'required|min:1'
 	));

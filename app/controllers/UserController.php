@@ -104,17 +104,75 @@ class UserController extends BaseController {
                 ->with('success', 'Name was changed!');
         }
     }
+    public function deleteName($user, $id) {
+        $info = User::find($user)->info;
+        if($info) {
+            switch ($id) {
+                case 1:
+                    $info->name1 = '';
+                    break;
+                case 2:
+                    $info->name2 = '';
+                    break;
+                default :
+                    break;
+            }
+            $info->save();
+        }
+        return Redirect::route('forum-user', $user);
+    }
     public function setEmail() {
         $validator = Validator::make(Input::all(), array(
-            'Email' => 'required|E-mail'
+            'email_body' => 'required|email'
 	));
         if($validator->fails()) {
             return Redirect::route('forum-user', Auth::user()->id)
+                ->with('modal', '#email_modal')
                 ->withErrors($validator)
                 ->withInput();
 	} else {
-            return Redirect::route('forum-user', Auth::user()->id)
-                ->with('success', 'You have specified an email!');
+            $info = User::find(Auth::user()->id)->info;
+            $info->email = Input::get('email_body');
+            if($info->save()) {
+                return Redirect::route('forum-user', Auth::user()->id)
+                    ->with('success', 'You have specified an email!');
+            } else {
+                return Redirect::route('forum-user', Auth::user()->id)
+                    ->with('fail', 'Your email wasn\'t set! Try again.');
+            }
 	}
+    }
+    public function deletEmail($id) {
+        $info = User::find($id)->info;
+        $info->email = NULL;
+        $info->save();
+        return Redirect::route('forum-user', $id);
+    }
+    public function deleteAvatar($id) {
+        $info = User::find($id)->info;
+        if($info) {
+            $info->avatar = 'default.png';
+            $info->save();
+        }
+        return Redirect::route('forum-user', $id);
+    }
+    public function avatarUpload() {
+        if (Input::hasFile('image')) {
+            $file = Input::file('image');
+            $array = explode(".", $file->getClientOriginalName());
+            $ext = $array[count($array) - 1];
+            if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'bmp' || $ext == 'gif' || $ext == 'png') {
+                $path = public_path().'\\img\\';
+                $filename = str_random(50).'.'.$ext;
+                if($file->move($path, $filename)) {
+                    $info = Auth::user()->info;
+                    $info->avatar = $filename;
+                    $info->save();
+                    return Redirect::route('forum-user', Auth::user()->id);
+                }
+            }
+        }
+        return Redirect::route('forum-user', Auth::user()->id)
+            ->with('fail', 'Can\'t upload file.');
     }
 }

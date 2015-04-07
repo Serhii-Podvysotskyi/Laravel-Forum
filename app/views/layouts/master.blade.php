@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="http://{{ Request::server("HTTP_HOST") }}/Bootstrap/3.3.4/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="{{ URL::to('/') }}/css/style.css">
+        <script src='https://www.google.com/recaptcha/api.js'></script>
     @show
 </head>
 <body>
@@ -57,6 +58,7 @@
     @section('javascript')
 	<script src=<?php echo '"http://'.Request::server("HTTP_HOST").'/jQuery/jquery-2.1.3.min.js"';?>></script>
 	<script src=<?php echo '"http://'.Request::server("HTTP_HOST").'/Bootstrap/3.3.4/js/bootstrap.min.js"';?>></script>
+        <script src=<?php echo '"http://'.Request::server("HTTP_HOST").'/Bootstrap/3.3.4/js/bootstrap.file-input.js"';?>></script>
     @show
 </body>
 </html>

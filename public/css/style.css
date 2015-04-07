@@ -1,15 +1,12 @@
 .panel-body.panel-list-group {
 	padding: 0;
 }
-
 .panel-body.panel-list-group .list-group {
 	margin-bottom: 0;
 }
-
 .panel-body.panel-list-group .list-group .list-group-item:first-child {
 	border-radius: 0;
 }
-
 .alert-container {
     position: fixed;
     bottom: 10px;
@@ -36,5 +33,35 @@ div.like span:hover {
     background-color: #337ab7;
 }
 div.like.active span {
+    background-color: #337ab7;
+}
+input.btn {
+    display: inline-block;
+}
+a.file-input-wrapper {
+    position: absolute;
+    max-width: 145px;
+}
+a.email {
+    color: white;
+}
+body,
+html {
+    height: 100%;
+}
+.tab-content {
+    padding-top: 4px;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+.tab-content .list-group{
+    margin: 4px;
+}
+ul#myTab li.active a {
+    background-color: #337ab7;
+    color: white;
+}
+div.tab-content, div.tab-content div.active {
     background-color: #337ab7;
 }

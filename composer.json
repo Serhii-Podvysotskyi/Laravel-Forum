@@ -6,7 +6,8 @@
 	"require": {
 		"laravel/framework": "4.2.*",
 		"golonka/bbcodeparser": "1.1.*",
-		"barryvdh/laravel-ide-helper": "1.11.*@dev"
+		"barryvdh/laravel-ide-helper": "1.11.*@dev",
+                "google/recaptcha": "~1.1"
 	},
 	"autoload": {
 		"classmap": [

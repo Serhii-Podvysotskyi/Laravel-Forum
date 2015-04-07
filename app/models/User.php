@@ -22,4 +22,35 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     public function info() {
         return $this->hasOne('UserInfo', 'user_id');
     }
+    public function threads() {
+        return $this->hasMany('ForumThread', 'author_id');
+    }
+    public function comments() {
+        return $this->hasMany('ForumComment', 'author_id');
+    }
+    public function favourites() {
+        return $this->hasMany('UserFavourite', 'user_id');
+    }
+    public function getFavoriteThreads() {
+        $stack = array();
+        foreach ($this->favourites as $favourite) {
+            array_push($stack, $favourite->thread_id);
+        }
+        $threads = array();
+        foreach (array_unique($stack) as $id) {
+            array_push($threads, ForumThread::find($id));
+        }
+        return $threads;
+    }
+    public function getThreads() {
+        $stack = array();
+        foreach ($this->comments as $comment) {
+            array_push($stack, $comment->thread_id);
+        }
+        $threads = array();
+        foreach (array_unique($stack) as $id) {
+            array_push($threads, ForumThread::find($id));
+        }
+        return $threads;
+    }
 }

@@ -5,7 +5,7 @@
 @stop
 @section('content')
     <div class="clearfix">
-	<ol class="breadcrumb pull-left">
+        <ol class="breadcrumb pull-left">
             <li><a href="{{ URL::route('forum-home') }}">Forums</a></li>
             <li class="active">{{ $category->title }}</li>
 	</ol>

@@ -11,7 +11,7 @@ class ForumThread extends Eloquent {
     	return $this->hasMany('ForumComment', 'thread_id');
     }
     public function isFavourite() {
-        return ($this->favourites()->where('user_id', Auth::user()->id)->count() == 0)? false : true;
+        return ($this->favourites()->where('user_id', Auth::user()->id)->get()->count() == 0)? false : true;
     }
     public function favourites() {
         return $this->hasMany('UserFavourite', 'thread_id');
@@ -19,7 +19,10 @@ class ForumThread extends Eloquent {
     public function author() {
     	return $this->belongsTo('User', 'author_id');
     }
-    public  function size() {
+    public function size() {
         return $this->comments()->count();
+    }
+    public function getSize($id) {
+        return $this->comments()->where('author_id', $id)->get()->count();
     }
 }

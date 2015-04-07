@@ -22,12 +22,12 @@
     <div class="panel panel-primary">
 	<div class="panel-heading">
             <div class="row">
-                <div class="col-md-2 col-sm-4 col-lg-2 col-xs-5">
+                <div class="col-md-4 col-sm-6 col-lg-3 col-xs-6">
                     <a href="{{ URL::route('forum-user', $thread->author->id) }}" class="thumbnail">
-                        <img src="{{ asset('img/'.$thread->author->info->avatar) }}" class="img-thumbnail" id="avatar">
+                        <img src="{{ asset('img/'.$thread->author->info->avatar) }}" class="img-rounded" id="avatar">
                     </a>
                 </div>
-                <div class="col-md-10 col-sm-8 col-lg-10 col-xs-7">
+                <div class="col-md-8 col-sm-6 col-lg-8 col-xs-6">
                     <h4><b>{{ $thread->title }}</b></h4>
                     <hr/>
                     By: <strong>{{ $author }}</strong> on {{ $thread->created_at }}
@@ -39,13 +39,14 @@
 	</div>		
     </div>
     @foreach ($thread->comments()->get() as $comment)
+        <hr/>
         <div class="row" id="{{ $comment->id }}">
-            <div class="col-md-2 col-sm-2 col-lg-1 col-xs-4">
+            <div class="col-md-3 col-sm-5s col-lg-2 col-xs-5">
                 <a href="{{ URL::route('forum-user', $comment->author->id) }}" class="thumbnail">
-                    <img src="{{ asset('img/'.$comment->author->info->avatar) }}" class="img-thumbnail" id="avatar">
+                    <img src="{{ asset('img/'.$comment->author->info->avatar) }}" class="img-rounded" id="avatar">
                 </a>
             </div>
-            <div class="col-md-10 col-sm-10 col-lg-11 col-xs-8">
+            <div class="col-md-9 col-sm-7 col-lg-10 col-xs-7">
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <p class="pull-left">By:
@@ -66,19 +67,28 @@
             </div>
         </div>
     @endforeach
+    <hr/>
     @if(Auth::check())
-	<form action="{{ URL::route('forum-store-comment', $thread->id) }}" method="post">
-            <div class="form-group">
-		<label for="body">Comment: </label>
-		<textarea class="form-control" name="body" id="body"></textarea>
+        <form action="{{ URL::route('forum-store-comment', $thread->id) }}" method="post" class="col-md-8 col-md-offset-2" style="margin-bottom: 80px;">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group{{ ($errors->has('body')) ? ' has-error' : ''}}">
+                        <label for="body">Comment: </label>
+                        <textarea class="form-control" name="body" id="body">{{ (Input::has('body'))? Input::get('body') : '' }}</textarea>
+                    </div>
+                    {{ Form::token() }}
+                </div>
+                <div class="panel-footer">
+                    <div class="form-group">
+                        <input type="submit" value="Add" class="btn btn-primary btn-lg pull-right" id="add_comment" style="margin-top: 15px; margin-left: 15px;">
+                        <div class="g-recaptcha pull-right" data-sitekey="6Lfn7gQTAAAAAH1nPaiMYmFE44X5Gz9Fs-2JT6bw"></div>
+                        <br/>
+                    </div>
+                    <br/><br/>
+                </div>
             </div>
-            {{ Form::token() }}
-            <div class="form-group">
-		<input type="submit" value="Add" class="btn btn-primary">
-            </div>
-	</form>
+        </form>
     @endif
-    <br/><br/><br/><br/><br/>
 @stop
 @section('javascript')
     @parent
